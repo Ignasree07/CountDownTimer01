@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #timer {
+      font-size: 24px;
+      margin-bottom: 10px;
+     }
+  #bg1 {
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 12px;
+}
+#bg2 {
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 12px;
+}
+#bg3 {
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 12px;
+}
+ </style>
+</head>
+<body bgcolor="#e7e7e7">
+<center><b><h1>CountDown Timer</h1></b></center>
+ <div align="center">
+    <label style="font-size:30px;" for="minutes"><font color="#D2691E">Enter minutes:</font></label><br>
+</div><br>
+<div align="center">
+    <input type="number" id="minutes" style="width: 300px; height:50px" placeholder="Enter Minutes" ><br>
+</div><br>
+<div align="center">
+    <button id="bg1" style="background-color: #04AA6D;" onclick="startCountdown()">Play</button>
+    <button id="bg2" style="background-color: yellow;"onclick="resetCountdown()">Reset</button>
+    <button id="bg3" style="background-color: Red;" onclick="pauseCountdown()">Pause</button>
+
+</div><br>
+  <div id="timer" align="center"><font color="#8f00ff" size="200px">00:00:00</font></div>
+
+  <script>
+    let countdown;
+    let remainingTime;
+
+    function startCountdown() {
+      const minutesInput = document.getElementById('minutes');
+      const minutes = parseInt(minutesInput.value, 10);
+
+      if (isNaN(minutes) || minutes <= 0) {
+        alert('Please enter a valid positive number for minutes.');
+        return;
+      }
+
+      if (countdown) {
+        clearInterval(countdown);
+      }
+
+      remainingTime = minutes * 60;
+
+      countdown = setInterval(function() {
+        if (remainingTime <= 0) {
+          clearInterval(countdown);
+        } else {
+          updateTimerDisplay();
+          remainingTime--;
+        }
+      }, 1000);
+    }
+
+    function resetCountdown() {
+      clearInterval(countdown);
+      document.getElementById('timer').innerText = '00:00:00';
+      remainingTime = 0;
+    }
+
+    function pauseCountdown() {
+      clearInterval(countdown);
+    }
+
+    function updateTimerDisplay() {
+      const hours = Math.floor(remainingTime / 3600);
+      const minutes = Math.floor((remainingTime % 3600) / 60);
+      const seconds = remainingTime % 60;
+
+      document.getElementById('timer').innerText = formatTime(hours) + ':' + formatTime(minutes) + ':' + formatTime(seconds);
+    }
+
+    function formatTime(time) {
+      return time < 10 ? '0' + time : time;
+    }
+  </script>
+
+</body>
+</html>
